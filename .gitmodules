@@ -1,0 +1,6 @@
+[submodule "httpd"]
+	path = httpd
+	url = https://github.com/docker-library/httpd.git
+[submodule "docker-alpine-curl"]
+	path = docker-alpine-curl
+	url = https://github.com/byrnedo/docker-alpine-curl.git

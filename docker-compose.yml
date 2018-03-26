@@ -1,0 +1,48 @@
+version: '3'
+services:
+  httpd:
+    image: httpd:2.4-alpine
+    networks:
+      - mapper
+    ports:
+      - 80:80
+    volumes:
+      - httpd-config:/usr/local/apache2/conf
+      - httpd-data:/usr/local/apache2/htdocs
+  sshd:
+    image: rastasheep/ubuntu-sshd
+    networks:
+      - mapper
+    ports:
+      - 22:22
+    volumes:
+     -  httpd-config:/config/httpd
+  geoserver:
+    image: kartoza/geoserver
+    networks:
+      - mapper
+    ports:
+      - 8080:8080
+    volumes:
+      - GeoServer-data-basemap:/opt/geoserver/data_dir/basemap
+      - GeoServer-data-students:/opt/geoserver/data_dir/students
+      - GeoServer-data:/opt/geoserver/data_dir/general
+      - GeoServer-config:/opt/geoserver/data_dir
+  dataloader:
+    build:
+      context: ./docker-alpine-curl
+      dockerfile: Dockerfile
+    volumes:
+      - GeoServer-data-basemap:/opt/geoserver/data_dir/basemap
+      - GeoServer-data:/opt/geoserver/data_dir/general
+
+volumes:
+  httpd-config:
+  httpd-data:
+  GeoServer-data-basemap:
+  GeoServer-data-students:
+  GeoServer-data:
+  GeoServer-config:
+
+networks:
+  mapper:
