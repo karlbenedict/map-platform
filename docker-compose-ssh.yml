@@ -1,0 +1,16 @@
+version: '3'
+services:
+    sshd:
+      build:
+        context: ./ubuntu-sshd
+        dockerfile: Dockerfile
+      ports:
+        - "23:22"
+      volumes:
+        - GeoServer-data-students:/opt/geoserver/data_dir/students
+        - GeoServer-data:/opt/geoserver/data_dir/general
+
+volumes:
+  GeoServer-data-students:
+  GeoServer-data:
+

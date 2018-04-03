@@ -5,24 +5,16 @@ services:
     networks:
       - mapper
     ports:
-      - 80:80
+      - "80:80"
     volumes:
       - httpd-config:/usr/local/apache2/conf
       - httpd-data:/usr/local/apache2/htdocs
-  sshd:
-    image: rastasheep/ubuntu-sshd
-    networks:
-      - mapper
-    ports:
-      - 22:22
-    volumes:
-     -  httpd-config:/config/httpd
   geoserver:
     image: kartoza/geoserver
     networks:
       - mapper
     ports:
-      - 8080:8080
+      - "8080:8080"
     volumes:
       - GeoServer-data-basemap:/opt/geoserver/data_dir/basemap
       - GeoServer-data-students:/opt/geoserver/data_dir/students
