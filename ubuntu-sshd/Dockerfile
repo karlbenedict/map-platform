@@ -5,6 +5,7 @@ RUN apt-get update
 
 RUN apt-get install -y openssh-server
 RUN apt-get install -y python3
+RUN apt-get install -y unzip
 RUN mkdir /var/run/sshd
 
 # default root password is 'laugh-dallas-finger'
@@ -18,6 +19,8 @@ RUN sed -ri 's/^PermitRootLogin\s+.*/PermitRootLogin yes/' /etc/ssh/sshd_config
 RUN sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
 RUN mkdir -p /opt/geoserver/data_dir/general
 RUN chown -R :students /opt/geoserver/data_dir/general
+
+
 RUN mkdir /startup
 WORKDIR /startup
 COPY GenerateUsers.py /startup
@@ -25,6 +28,7 @@ COPY words.txt /startup
 RUN ./GenerateUsers.py
 
 RUN chmod g+rw /opt/geoserver/data_dir/general
+RUN chmod o-rwx /startup
 WORKDIR /opt/geoserver/data_dir/general
 
 EXPOSE 22
